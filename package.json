@@ -1,0 +1,71 @@
+{
+  "name": "typescript-project-basic-template",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": "andreww2012",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "u": "ncu",
+    "u:m": "ncu -t minor",
+    "u:pm": "ncu --dep packageManager",
+    "u:actions": "actions-up",
+    "deps:audit": "pnpm audit --audit-level high",
+    "deps:audit:fix": "nr deps:audit --fix override",
+    "deps:audit:fix:update": "nr deps:audit --fix update",
+    "deps:dedupe:check": "pnpm dedupe --check",
+    "deps:peers:check": "pnpm peers check",
+    "spellcheck": "cspell --no-progress --no-summary .",
+    "format:check": "prettier --check . --log-level warn",
+    "format": "prettier --write . --log-level warn",
+    "eslint:inspect": "eslint-config-inspector --open false",
+    "lint:eslint": "eslint --cache",
+    "lint:ts": "tsc --noEmit",
+    "lint:ts6": "tsc6 --noEmit",
+    "knip": "knip --no-progress",
+    "check": "nr '/^(knip|spellcheck|lint:ts|format:check|lint:eslint)$/'",
+    "check:deps": "nr '/^deps:(peers:check|audit)$/'",
+    "check:deps:strict": "nr '/^deps:*$/'",
+    "check:fix": "nr format && nr lint:eslint --fix && nr format",
+    "t": "vitest",
+    "t:ui": "vitest --ui",
+    "t:cov": "vitest --coverage",
+    "test:vitest": "nr t run",
+    "test:vitest:cov": "nr t:cov run",
+    "test": "nr check:deps && nr check && nr test:vitest"
+  },
+  "dependencies": {
+    "@andreww2012/unutils": "0.1.0"
+  },
+  "devDependencies": {
+    "@antfu/ni": "30.2.0",
+    "@commitlint/cli": "21.2.1",
+    "@commitlint/config-conventional": "21.2.0",
+    "@commitlint/types": "21.2.0",
+    "@eslint/config-inspector": "3.1.0",
+    "@types/node": "22.19.17",
+    "actions-up": "1.16.0",
+    "cross-env": "10.1.0",
+    "cspell": "10.0.1",
+    "eslint": "10.7.0",
+    "eslint-config-un": "1.0.0-beta.14",
+    "knip": "6.27.0",
+    "lefthook": "2.1.10",
+    "npm-check-updates": "22.2.9",
+    "prettier": "3.9.6",
+    "semver": "7.8.5",
+    "tsx": "4.23.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript7": "npm:typescript@7.0.2"
+  },
+  "engines": {
+    "node": "^22.23.1 || >=24"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.15.1"
+    }
+  }
+}

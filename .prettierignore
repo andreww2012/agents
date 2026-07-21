@@ -1,0 +1,9 @@
+.*
+!.*/
+!.*.*
+
+*.html
+*.json
+
+pnpm-lock.yaml
+yarn.lock
