@@ -1,14 +1,28 @@
 import {eslintConfig} from 'eslint-config-un';
 
 export default eslintConfig({
-  // defaultConfigsStatus: 'misc-enabled',
+  defaultConfigsStatus: 'misc-enabled',
   configs: {
-    ts: {
-      // allowDefaultProject: ['*.config.*ts'],
+    markdown: {
+      configSentencesPerLine: true,
+    },
+    unicorn: {
+      ignores: [
+        '**/*.json', // Fixes "The following rules do not support the language "jsonc/x""
+      ],
     },
 
     // False positives:
-    // youDontNeedLodashUnderscore: false, // cspell:disable-line
     zod: false,
   },
+  extraConfigs: [
+    // Fixes "The following rules do not support the language "jsonc/x""
+    {
+      files: ['**/*.json'],
+      rules: {
+        'unicorn/no-process-exit': 0,
+        'unicorn/prefer-import-meta-properties': 0,
+      },
+    },
+  ],
 });

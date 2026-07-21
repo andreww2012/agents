@@ -4,6 +4,7 @@
 
 *.html
 *.json
+*.md
 
 pnpm-lock.yaml
 yarn.lock

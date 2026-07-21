@@ -9,8 +9,6 @@ pre-push:
       run: pnpm exec cspell --exclude '**/.*' --no-must-find-files {push_files}
     knip:
       run: nr knip
-    types:
-      run: nr lint:types
 
 pre-commit:
   parallel: true

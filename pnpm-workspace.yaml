@@ -1,9 +1,7 @@
-# shamefullyHoist: true
 saveExact: true
 
 minimumReleaseAge: 960 # 16 hours in minutes
-minimumReleaseAgeExclude:
-  # []
+minimumReleaseAgeExclude: # []
   - prettier@3.9.6
 
 trustPolicy: no-downgrade
@@ -17,3 +15,6 @@ allowBuilds:
 
 dedupePeers: true
 strictPeerDependencies: false
+
+overrides:
+  eslint-plugin-sonarjs: 4.2.0
