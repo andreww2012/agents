@@ -10,7 +10,7 @@ If anything stated here conflicts with the origin repo or the prompt, prefer it 
 
 - Use `const` instead of `let` whenever possible.
 - Prefer arrow functions whenever possible.
-- Avoid common shorthands like `str`, `arr`, `cls`, `brk`, `err`, `val`, etc. Use full words.
+- Avoid common shorthands like `str`, `arr`, `cls`, `brk`, `err`, `val`, `pkg`, etc. Use full words.
   Exceptions: `dict`, `ctx`, `acc`.
 - Avoid adding comments as much as possible.
   Exception: they explain the actual non-obvious "why" behind the code.
