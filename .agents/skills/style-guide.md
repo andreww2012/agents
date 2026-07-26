@@ -41,6 +41,8 @@ If anything stated here conflicts with the origin repo or the prompt, prefer it 
   - Good: `const FOO = ['bar', 1 + 2])`;
   - Bad: `const FOO = ['bar', Math.random()]`.
 - When a symbol is only used once, prefer to inline it unless it is non-trivial.
+- Keep each sentence in Markdown or JSDoc on a separate line, exactly like in this document.
+  Exception: don't do that in `.changeset/*.md` files as they would be rendered differently in the changelog file that [changesets](https://github.com/changesets/changesets) are rendering.
 
 ## General
 
