@@ -78,7 +78,7 @@ module.exports = {
   format: ['group'],
   interactive: true,
   groupFunction: (fullName) => {
-    const [nameScope] = fullName.split('/');
+    const [nameScope] = fullName.split('/', 1);
     const knownGroup = PACKAGE_GROUPS[fullName] || PACKAGE_GROUPS[`${nameScope}/*`];
 
     if (knownGroup) {
