@@ -1,12 +1,9 @@
-<!-- cspell:ignore nstall behaviour organisation -->
-
-<!-- eslint-disable-next-line markdown-preferences/heading-casing -->
 # Style Guide
 
 This is a generic style guide that might be linked from a different repository.
 If anything stated here conflicts with the origin repo or the prompt, prefer it instead.
 
-## Style guide
+## Code
 
 - Use `const` instead of `let` whenever possible.
 - Prefer arrow functions whenever possible.
@@ -74,7 +71,6 @@ If there are specific package.json scripts to invoke them, prefer them instead o
 - CSpell (`cspell --no-progress --no-summary changed.ext1 files.ext2`)
 - Dependency vulnerability checker (if the lockfile was modified), for example `pnpm audit --audit-level high` (usually high+ vulnerabilities are only important to fix)
 
-<!-- eslint-disable-next-line markdown-preferences/heading-casing -->
 ### CSpell
 
 If a word to ignore only encountered in a single file:

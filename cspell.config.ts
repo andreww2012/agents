@@ -12,5 +12,10 @@ export default {
   ignorePaths: ['**/.gitignore', '**/.git/**', '**/pnpm-lock.yaml', 'patches/**'],
   dictionaries: ['npm', 'node', 'typescript'],
   words: Object.values(GLOBALLY_IGNORED_WORDS).flat(),
-  overrides: [],
+  overrides: [
+    {
+      filename: ['.agents/skills/style-guide.md', 'cspell.config.ts'],
+      words: ['nstall', 'behaviour', 'organisation'],
+    },
+  ],
 } satisfies CSpellSettings;

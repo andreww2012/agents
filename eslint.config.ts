@@ -6,6 +6,9 @@ export default eslintConfig({
     markdown: {
       configSentencesPerLine: true,
     },
+    markdownPreferences: {
+      enforceCasing: false,
+    },
     unicorn: {
       ignores: [
         '**/*.json', // Fixes "The following rules do not support the language "jsonc/x""
