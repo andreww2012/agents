@@ -51,6 +51,9 @@ Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-
 
 ## General
 
+Don't (un)stage or commit changes unless explicitly asked to.
+Prefer not to use a stash to find a root cause, test hypotheses and similar - it's better to use something like a git worktree, or completely avoid that.
+
 Use `kebab-case` for files and directory names, unless they are called differently by convention (like `README.md`, `AGENTS.md`, etc).
 
 Don't invoke other package managers except for the used one - i.e. strongly prefer say `pnpm run` instead of `npm run` if pnpm is clearly used.
