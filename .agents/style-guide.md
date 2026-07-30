@@ -6,6 +6,9 @@
 
 This is a generic style guide that might be linked from a different repository.
 If anything stated here conflicts with the origin repo or the prompt, prefer it instead.
+⚠️⚠️⚠️ WHEN COPYING THIS FILE INTO YOUR PROJECT, YOU LIKELY NEED TO REMOVE THIS WHOLE PARAGRAPH, BUT PLEASE DO KEEP THE SOURCE LINK SENTENCE BELOW, INSERTING THE COMMIT HASH: ⚠️⚠️⚠️
+
+Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-HASH/.agents/style-guide.md>
 
 ## Code
 
