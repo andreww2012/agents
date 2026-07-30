@@ -20,6 +20,7 @@ Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-
   Exception: they explain the actual non-obvious "why" behind the code.
   In other words, they must add *real* value.
   When composing them, avoid verbosity as much as possible but not sacrifice clarity.
+- Never put a full stop at the very end of a comment.
 - Never omit curly braces around blocks (like `if`, `else`, etc.)
 - Let the type system infer types whenever possible (always prefer implicit/inferred return types).
   Some important cases:
