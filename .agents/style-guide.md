@@ -86,3 +86,7 @@ If a word to ignore only encountered in a single file:
 - Use top-level comment `cspell:ignore words to disable` if the word only occurs once in a file, or it's not possible to use the inline comment `cspell:disable-line`
 - Otherwise, use that inline comment.
   Warning: it does not accept the list of words to ignore on the line, so please minimize the line length that is going to be disabled by CSpell.
+
+## Meta
+
+Don't say (unless asked explicitly) you have been following this style guide; just follow it.
