@@ -1,3 +1,7 @@
+<!-- eslint-disable markdown-preferences/heading-casing, markdown-preferences/padding-line-between-blocks -->
+<!-- prettier-ignore -->
+<!-- cspell:disable -->
+
 # Style Guide
 
 This is a generic style guide that might be linked from a different repository.
