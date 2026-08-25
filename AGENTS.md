@@ -1,2 +1,1 @@
-This is a stub `AGENTS.md`.
-You might want to fill it out with something useful, or remove it (along with symlinked `CLAUDE.md`).
+Follow [the project style guide](./.agents/style-guide.md).

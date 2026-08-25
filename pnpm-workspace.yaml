@@ -1,12 +1,15 @@
+# shamefullyHoist: true
 saveExact: true
 
 minimumReleaseAge: 960 # 16 hours in minutes
 minimumReleaseAgeExclude: # []
-  - prettier@3.9.6
+  - eslint@10.9.1
+minimumReleaseAgeExcludePrune: true
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200 # 30 days in minutes
-trustPolicyExclude: []
+trustPolicyExclude: # []
+  - '@humanwhocodes/momoa@3.3.12' # cspell:disable-line
 
 allowBuilds:
   esbuild@0.28.1: false

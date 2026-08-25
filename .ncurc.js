@@ -1,17 +1,30 @@
 // @ts-check
-const fs = require('node:fs');
-const path = require('node:path');
-const semver = require('semver');
-const packageJson = require('./package.json');
+import fs from 'node:fs';
+import path from 'node:path';
+import {defineConfig} from 'npm-check-updates';
+import {satisfies, tryParse} from 'verkit';
+import packageJson from './package.json' with {type: 'json'};
 
-const CACHE_DIRECTORY = path.join(__dirname, 'node_modules/.cache/npm-check-updates');
+const CACHE_DIRECTORY = path.join(import.meta.dirname, 'node_modules/.cache/npm-check-updates');
+// eslint-disable-next-line unicorn/no-top-level-side-effects
 fs.mkdirSync(CACHE_DIRECTORY, {recursive: true});
 
 /** @type {Set<string>} */
 const IGNORED_PACKAGES = new Set();
 
+/**
+ * Blocks *updating to* any version matching the given semver range for a package
+ * (it does not restrict the version we update *from*). Use to skip a known-broken
+ * release until a fix ships. Each entry should document why it is blocked
+ * @type {Record<string, string>}
+ */
+const IGNORED_PACKAGE_RANGES_TO_UPDATE = {};
+
 /** @type {Set<string>} */
-const IGNORED_MAJOR_VERSION_TRANSITIONS = new Set(['@types/node']);
+const PACKAGES_WITH_PINNED_MAJOR_VERSION = new Set(['@types/node']);
+
+/** Their `latest` dist-tag lags behind the prerelease channel we actually follow. */
+const PACKAGES_ON_PRERELEASE_CHANNEL = new Set(['eslint-config-un']);
 
 /**
  * @type {Record<string, {packages: string[]; groupName?: string; icon?: string; priority?: number | null}>}
@@ -45,14 +58,18 @@ const PACKAGE_GROUPS = Object.entries({
   return Object.assign(result, packagesInCurrentGroup);
 }, {});
 
-/**
- * @type {import('npm-check-updates').RunOptions}
- */
-module.exports = {
+export default defineConfig({
   cache: true,
   cacheExpiration: 30,
   cacheFile: path.join(CACHE_DIRECTORY, 'cache.json'),
 
+  target: (packageName) => {
+    if (PACKAGES_WITH_PINNED_MAJOR_VERSION.has(packageName)) {
+      return 'minor';
+    }
+
+    return PACKAGES_ON_PRERELEASE_CHANNEL.has(packageName) ? 'greatest' : 'latest';
+  },
   filterResults: (
     packageName,
     {currentVersion: currentVersionRaw, upgradedVersion: upgradedVersionRaw},
@@ -66,11 +83,17 @@ module.exports = {
     const [currentVersion, upgradedVersion] = [currentVersionRaw, upgradedVersionRaw].map((v) =>
       v.split('@').at(-1),
     );
+
+    const blockedVersionRange = IGNORED_PACKAGE_RANGES_TO_UPDATE[packageName];
+    if (blockedVersionRange && satisfies(upgradedVersion || '', blockedVersionRange)) {
+      return false;
+    }
+
     const [currentVersionSemver, upgradedVersionSemver] = [currentVersion, upgradedVersion].map(
-      (v) => semver.parse(v),
+      (v) => tryParse(v || ''),
     );
     return !(
-      IGNORED_MAJOR_VERSION_TRANSITIONS.has(packageName) &&
+      PACKAGES_WITH_PINNED_MAJOR_VERSION.has(packageName) &&
       currentVersionSemver?.major !== upgradedVersionSemver?.major
     );
   },
@@ -90,4 +113,4 @@ module.exports = {
       ? '2. 🧑‍💻 Dev dependencies'
       : '1. 📦 Direct dependencies';
   },
-};
+});
