@@ -57,10 +57,12 @@ All above is not a hard ban - you can use whatever if it actually fits and makes
 - When a symbol is only used once, prefer to inline it unless it is non-trivial.
 - Keep each sentence in Markdown or JSDoc on a separate line, exactly like in this document.
   Exception: don't do that in `.changeset/*.md` files as they would be rendered differently in the changelog file that [changesets](https://github.com/changesets/changesets) are rendering.
+- Minimize referencing symbol names in comments: if they ever get renamed in the codebase, there's a real risk of your reference becoming stale.
 
 ## General
 
 Don't (un)stage or commit changes unless explicitly asked to.
+If you're asked to, never add yourself as a co-author.
 Prefer not to use a stash to find a root cause, test hypotheses and similar - it's better to use something like a git worktree, or completely avoid that.
 
 Use `kebab-case` for files and directory names, unless they are called differently by convention (like `README.md`, `AGENTS.md`, etc).
@@ -79,8 +81,8 @@ If you're asked to implement X, always consult the `.{agents,claude}/skills` dir
 
 ## Testing tools, linters and checkers
 
-Always run them on the *all* changed files (not only source files!) unless not possible or instructed otherwise and if the corresponding tools are available *only when the task is done*.
-Ignore the pre-existing issues.
+Always run them on the *all **changed*** files (not only source files!) unless not possible or instructed otherwise and if the corresponding tools are available *only when the task is done*.
+Ignore the pre-existing unrelated issues.
 If there are specific package.json scripts to invoke them, prefer them instead over calling directly:
 
 - TypeScript as type checker (usually `tsc --noEmit` or `vue-tsc --notEmit` for Vue projects)
@@ -102,3 +104,4 @@ If a word to ignore only encountered in a single file:
 ## Meta
 
 Don't say (unless asked explicitly) you have been following this style guide; just follow it.
+In general, don't say you did (not) follow something - that is implied.
