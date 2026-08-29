@@ -1,1 +1,1 @@
-Follow [the project style guide](./.agents/style-guide.md).
+**CRITICAL:** follow [the project style guide](./.agents/style-guide.md).
