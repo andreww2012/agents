@@ -12,11 +12,13 @@ Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-
 
 ## Communication
 
-Use plain English for the output, while still respecting language and prose style used in the current project for generated code.
-Sound human.
+**CRITICAL:** Use plain English for the output, while still respecting language and prose style used in the current project for generated code.
 Avoid long dashes.
-Avoid terms and phrases like "load-bearing", "it's not x; it's y" and similar, and other jargonisms.
+Avoid terms and phrases like "load-bearing", "byte-identical", "it's not x; it's y", "earn sth place" and similar.
+Reduce use of metaphors, jargonisms, complex, "fancy" or rarely used words.
 Don't be verbose in general.
+Sound human.
+In general, your should do your best so that your output/prose reads easily, without sactificing any information you'd like to express.
 All above is not a hard ban - you can use whatever if it actually fits and makes sense.
 
 ## Code
