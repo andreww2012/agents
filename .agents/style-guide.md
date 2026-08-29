@@ -50,12 +50,14 @@ All above is not a hard ban - you can use whatever if it actually fits and makes
 - Prefer "direct" conditions over negated:
   - Good: `a ? b : c`, `if (a) { ... } else { ... }`
   - Bad: `!a ? c : b`, `if (!a) { ... } else { ... }`
-- If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible.
+- If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible: adding or removing object properties is usually *very* bad for performance.
 - Prefer `||` over `??` unless the latter actually changes the logic in a positive way.
 - For constants, use CONSTANT_CASE <=> value is statically constructed:
   - Good: `const FOO = 'bar'`;
   - Good: `const FOO = ['bar', 1 + 2])`;
   - Bad: `const FOO = ['bar', Math.random()]`.
+- Prefer `Record<string, unknown>` over `object` TypeScript type as the former is usually simpler to reason about.
+- Prefer `Array#reduce` over creating an object and modifying its properties in a loop.
 - When a symbol is only used once, prefer to inline it unless it is non-trivial.
 - Keep each sentence in Markdown or JSDoc on a separate line, exactly like in this document.
   Exception: don't do that in `.changeset/*.md` files as they would be rendered differently in the changelog file that [changesets](https://github.com/changesets/changesets) are rendering.
@@ -69,17 +71,16 @@ Prefer not to use a stash to find a root cause, test hypotheses and similar - it
 
 Use `kebab-case` for files and directory names, unless they are called differently by convention (like `README.md`, `AGENTS.md`, etc).
 
-Don't invoke other package managers except for the used one - i.e. strongly prefer say `pnpm run` instead of `npm run` if pnpm is clearly used.
-If [`@antfu/ni` commands](https://raw.githubusercontent.com/antfu-collective/ni/refs/heads/main/README.md) are available, prefer them instead of package manager native ones (i.e. `ni` instead of say `pnpm i(nstall)`).
+Avoid British variants of words like *behaviour* or *organisation* unless the project allows them.
 
-Avoid British variants of words like *behaviour* or *organisation*.
-
-Always challenge your implementation for performance, ergonomics and code length issues (remember DRY, KISS principles) and find ways to improve it.
+Always challenge your implementation for performance, ergonomics and code length issues and find ways to improve it.
+Adhere to DRY, KISS, YAGNI, Rule of three and other principles/rules of writing clean and maintainable code.
 Don't over-engineer or over-optimize things though - this is not required in majority of cases.
 
-Never commit or stage changes unless explicitly asked to.
-
 If you're asked to implement X, always consult the `.{agents,claude}/skills` directory of the repo that might contain the relevant implementation info/instructions.
+
+Avoid invoking non-used package managers' commands - i.e. if `pnpm` is used in the project, you must use `pnpm why` instead of `npm why`, unless the equivalent is missing.
+If [`@antfu/ni` commands](https://raw.githubusercontent.com/antfu-collective/ni/refs/heads/main/README.md) are available, prefer them instead of package manager native ones (i.e. `ni` instead of `(p)npm i(nstall)`, `nr` instead of `(p)npm run` and so on).
 
 ## Testing tools, linters and checkers
 
