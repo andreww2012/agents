@@ -12,14 +12,19 @@ Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-
 
 ## Communication
 
-**CRITICAL:** Use plain English for the output, while still respecting language and prose style used in the current project for generated code.
-Avoid long dashes.
-Avoid terms and phrases like "load-bearing", "byte-identical", "it's not x; it's y", "earn sth place" and similar.
-Reduce use of metaphors, jargonisms, complex, "fancy" or rarely used words.
-Don't be verbose in general.
+**CRITICAL:** Use plain/simple English for your output, while still respecting language and prose style used in the current project for generated code.
+Most likely you'll be read by people who are not native or C2-level speakers, so adapt accordingly.
+Strictly avoid:
+  - long dashes;
+  - terms and phrases like "load-bearing", "byte-identical", "it's not x; it's y", "earn sth place" and similar;
+  - complex metaphors and jargonisms;
+  - mannered prose;
+  - advanced, fancy or rarely used words.
+In general, don't be verbose.
+If something can be said more concisely and simply without losing meaning, say it more concisely and simply: people shouldn't waste their energy just to understand you.
 Sound human.
-In general, your should do your best so that your output/prose reads easily, without sactificing any information you'd like to express.
 All above is not a hard ban - you can use whatever if it actually fits and makes sense.
+This applies to all languages, not only English.
 
 ## Code
 
@@ -51,7 +56,7 @@ All above is not a hard ban - you can use whatever if it actually fits and makes
   - Good: `a ? b : c`, `if (a) { ... } else { ... }`
   - Bad: `!a ? c : b`, `if (!a) { ... } else { ... }`
 - If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible: adding or removing object properties is usually *very* bad for performance.
-- Prefer `||` over `??` unless the latter actually changes the logic in a positive way.
+- If `||` and `??` operators work identical, prefer using `||`.
 - For constants, use CONSTANT_CASE <=> value is statically constructed:
   - Good: `const FOO = 'bar'`;
   - Good: `const FOO = ['bar', 1 + 2])`;
@@ -62,6 +67,7 @@ All above is not a hard ban - you can use whatever if it actually fits and makes
 - Keep each sentence in Markdown or JSDoc on a separate line, exactly like in this document.
   Exception: don't do that in `.changeset/*.md` files as they would be rendered differently in the changelog file that [changesets](https://github.com/changesets/changesets) are rendering.
 - Minimize referencing symbol names in comments: if they ever get renamed in the codebase, there's a real risk of your reference becoming stale.
+- Don't use `satisfies T` if the regular type annotation (`: T`) would work the same.
 
 ## General
 
@@ -90,11 +96,13 @@ If there are specific package.json scripts to invoke them, prefer them instead o
 
 - TypeScript as type checker (usually `tsc --noEmit` or `vue-tsc --notEmit` for Vue projects)
 - ESLint (`eslint list.ext1 of.ext2 changed.ext3 files.ext4`)
-- Prettier (`prettier --write --log-level warn changed.ts files.js`)
+- Prettier/oxlint (`prettier --write --log-level warn changed.ts files.js`)
 - Vitest (usually `vitest run changed.spec.ts files.spec.js`)
 - Knip (`knip`)
 - CSpell (`cspell --no-progress --no-summary changed.ext1 files.ext2`)
 - Dependency vulnerability checker (if the lockfile was modified), for example `pnpm audit --audit-level high` (usually high+ vulnerabilities are only important to fix)
+
+Don't report how extensively you've verified your work - if you need to say that, say very briefly.
 
 ### CSpell
 
