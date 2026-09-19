@@ -74,8 +74,7 @@ export default defineConfig({
     packageName,
     {currentVersion: currentVersionRaw, upgradedVersion: upgradedVersionRaw},
   ) => {
-    // cspell:disable-next-line
-    // eslint-disable-next-line sonarjs/no-empty-collection
+    // eslint-disable-next-line sonar/no-empty-collection
     if (IGNORED_PACKAGES.has(packageName)) {
       return false;
     }
