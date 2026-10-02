@@ -1,4 +1,3 @@
-# shamefullyHoist: true
 saveExact: true
 
 minimumReleaseAge: 960 # 16 hours in minutes
@@ -14,8 +13,9 @@ audit:
   ignorePrune: true
 
 allowBuilds:
+  lefthook@2.1.16: true
+
   esbuild: false
-  lefthook@2.1.14: true
   unrs-resolver: false
 
 dedupePeers: true
