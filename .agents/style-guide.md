@@ -83,9 +83,15 @@ In general, don't mention that you followed an instruction - that is implied.
 
 ## Workflow
 
+### Committing
+
 NEVER stage/unstage or commit changes unless explicitly asked to.
 Assume your change may be staged or committed by a user (most likely) or another agent at any point.
 Unless you're asked to, never add yourself as a co-author.
+At the end of your work, *suggest* commit message(s), respecting the project committing style (often it's enforced by `commitlint`).
+
+### Other
+
 Use git stash only if there's no other way: prefer git worktrees or throwaway repos.
 
 ## Misc (still VERY important)
