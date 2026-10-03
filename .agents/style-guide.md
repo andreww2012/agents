@@ -54,7 +54,7 @@ In general, don't mention that you followed an instruction - that is implied.
   - ✅ `const FOO = 'bar'`, `const FOO = ['bar', 1 + 2]`;
   - ❌ `const FOO = ['bar', Math.random()]`.
 - Prefer `Array#reduce` over creating an object and modifying its properties in a loop.
-- When a symbol is only used once, prefer to inline it unless it is non-trivial.
+- When a symbol is only used once, prefer to inline it unless it is non-trivial or its name conveys meaning the value alone doesn't (e.g. don't inline `const DEFAULT_SORTING = 'rank'` even if `DEFAULT_SORTING` is only used once).
 
 ### TypeScript
 
