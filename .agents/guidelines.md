@@ -1,10 +1,7 @@
-# Style Guide
+# Guidelines
 
-This is a generic style guide that might be linked from a different repository.
+These are generic guidelines that might be copied or linked from a different repository.
 If anything stated here conflicts with the origin repo or the prompt, prefer them.
-⚠️⚠️⚠️ WHEN COPYING THIS FILE INTO YOUR PROJECT, YOU LIKELY NEED TO REMOVE THIS WHOLE PARAGRAPH, BUT PLEASE DO KEEP THE SOURCE LINK SENTENCE BELOW, INSERTING THE COMMIT HASH: ⚠️⚠️⚠️
-
-Source: <https://github.com/andreww2012/agents/blob/SUBSTITUTE-THIS-WITH-COMMIT-HASH/.agents/style-guide.md>
 
 ## Communication
 
@@ -26,7 +23,7 @@ This applies to all languages, not only English.
 
 Don't report how extensively you've verified your work - if you need to say that, say *very* briefly.
 
-Don't say (unless asked explicitly) you have been following this style guide; just follow it.
+Don't say (unless asked explicitly) you have been following these guidelines; just follow them.
 In general, don't mention that you followed an instruction - that is implied.
 
 ## Code
@@ -169,4 +166,4 @@ If a word to ignore is only found in a single file:
 - Do use inline composables: <https://alexop.dev/posts/inline-vue-composables-refactoring>
 - Prefer `shallowRef` over `ref`, but only when that actually makes a difference (for example, `shallowRef(false)` does not).
 - Don't add `| null` as a possible type for refs for no reason - usually implicit `undefined` works just fine.
-- Prefer `useTemplateRef` if it's available, and prefer not to add an explicit type paramater to it.
+- Prefer `useTemplateRef` if it's available, and prefer not to add an explicit type parameter to it.

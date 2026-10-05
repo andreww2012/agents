@@ -14,8 +14,8 @@ export default {
   words: Object.values(GLOBALLY_IGNORED_WORDS).flat(),
   overrides: [
     {
-      filename: ['.agents/style-guide.md', 'cspell.config.ts'],
-      words: ['behaviour', 'organisation', 'nstall', 'lockfiles', 'cleye'],
+      filename: ['.agents/guidelines.md', 'cspell.config.ts'],
+      words: ['behaviour', 'organisation', 'nstall', 'lockfiles', 'cleye', 'coeff'],
     },
   ],
 } satisfies CSpellSettings;
