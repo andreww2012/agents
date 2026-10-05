@@ -94,6 +94,34 @@ At the end of your work, *suggest* commit message(s), respecting the project com
 
 Use git stash only if there's no other way: prefer git worktrees or throwaway repos.
 
+### Writing on the hosting platform
+
+These rules apply when you are asked to write content on the platform that hosts the repository (issues/discussions/comments/etc. on GitHub/GitLab/etc.).
+
+#### AI disclosure
+
+- Before you write, read the project's contribution rules (`CONTRIBUTING.md`, README, issue templates, AI policy, etc.)
+- If the project does not accept AI-generated contributions, do not write the content.
+  Tell the user why.
+- If the project has its own rules for marking AI content, follow them.
+  Otherwise, start the content with this preamble:
+  ```md
+    > [!NOTE]
+    > This <issue|discussion|comment|...> was written by AI (<model name>, <harness>), <any additional info>.
+  ```
+
+#### Audience
+
+Write for the people who will read the content.
+Find out:
+
+- The technical level of the maintainers and other readers.
+- Their attitude to AI-generated content.
+- Their expectations for issues: format, level of detail, what they think is noise.
+
+Use the contribution rules, issue templates, recent issues, and maintainer replies as sources.
+If you cannot find this information, assume maintainers are busy people who do not trust AI content: be short and specific, and include only facts you verified.
+
 ## Misc (still VERY important)
 
 Before implementing something, check the repo's `.{agents,claude}/skills` directory for relevant instructions.
