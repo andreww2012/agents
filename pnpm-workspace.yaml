@@ -1,4 +1,11 @@
+# `ncu` only updates catalogs in workspace mode, which needs this
+packages:
+  - ./
+
+# shamefullyHoist: true
 saveExact: true
+autoDedupe: true
+saveTypes: true
 
 minimumReleaseAge: 960 # 16 hours in minutes
 minimumReleaseAgeExclude: []
@@ -9,7 +16,8 @@ trustPolicyIgnoreAfter: 43200 # 30 days in minutes
 trustPolicyExclude: []
 
 audit:
-  ignore: []
+  ignore: # []
+    - GHSA-ch52-4w7c-c8xp # `http-cache-semantics` from `eslint-config-un` has no patched version yet
   ignorePrune: true
 
 allowBuilds:
@@ -20,3 +28,13 @@ allowBuilds:
 
 dedupePeers: true
 strictPeerDependencies: false
+
+catalogs:
+  format:
+    oxfmt: 0.71.0
+
+overrides:
+  # Format Markdown code blocks with the same oxfmt version as all other files
+  eslint-plugin-format>oxfmt: 'catalog:format'
+  # Only used by its Prettier rule. Otherwise, `eslint-config-un` would think Prettier is used
+  eslint-plugin-format>prettier: '-'

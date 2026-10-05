@@ -5,6 +5,9 @@ import {defineConfig} from 'npm-check-updates';
 import {satisfies, tryParse} from 'verkit';
 import packageJson from './package.json' with {type: 'json'};
 
+// Like `npm:@types/node@24.0.0`
+const NPM_ALIAS_REGEX = /^npm:(@?[^@]+)@/;
+
 const CACHE_DIRECTORY = path.join(import.meta.dirname, 'node_modules/.cache/npm-check-updates');
 // eslint-disable-next-line unicorn/no-top-level-side-effects
 fs.mkdirSync(CACHE_DIRECTORY, {recursive: true});
@@ -14,8 +17,9 @@ const IGNORED_PACKAGES = new Set();
 
 /**
  * Blocks *updating to* any version matching the given semver range for a package
- * (it does not restrict the version we update *from*). Use to skip a known-broken
- * release until a fix ships. Each entry should document why it is blocked
+ * (it does not restrict the version we update *from*).
+ * Use to skip a known-broken release until a fix ships.
+ * Each entry should document why it is blocked
  * @type {Record<string, string>}
  */
 const IGNORED_PACKAGE_RANGES_TO_UPDATE = {};
@@ -23,8 +27,10 @@ const IGNORED_PACKAGE_RANGES_TO_UPDATE = {};
 /** @type {Set<string>} */
 const PACKAGES_WITH_PINNED_MAJOR_VERSION = new Set(['@types/node']);
 
-/** Their `latest` dist-tag lags behind the prerelease channel we actually follow. */
-const PACKAGES_ON_PRERELEASE_CHANNEL = new Set(['eslint-config-un']);
+const PACKAGES_ON_PRERELEASE_CHANNEL = new Set([
+  // Their `latest` dist-tag lags behind the prerelease channel we actually follow
+  'eslint-config-un',
+]);
 
 /**
  * @type {Record<string, {packages: string[]; groupName?: string; icon?: string; priority?: number | null}>}
@@ -41,6 +47,9 @@ const PACKAGE_GROUPS = Object.entries({
   },
   '@cspell': {
     packages: ['cspell'],
+  },
+  '@vitest': {
+    packages: ['vitest'],
   },
   // '@commitlint': {packages: []},
 }).reduce((result, [groupName, {packages: packagesInGroup, ...groupMeta}]) => {
@@ -63,6 +72,10 @@ export default defineConfig({
   cacheExpiration: 30,
   cacheFile: path.join(CACHE_DIRECTORY, 'cache.json'),
 
+  // Catalogs in `pnpm-workspace.yaml` are only updated in workspace mode
+  workspaces: true,
+  root: true,
+
   target: (packageName) => {
     if (PACKAGES_WITH_PINNED_MAJOR_VERSION.has(packageName)) {
       return 'minor';
@@ -79,9 +92,11 @@ export default defineConfig({
       return false;
     }
 
-    const [currentVersion, upgradedVersion] = [currentVersionRaw, upgradedVersionRaw].map((v) =>
-      v.split('@').at(-1),
+    const [currentVersion, upgradedVersion] = [currentVersionRaw, upgradedVersionRaw].map(
+      (version) => version.split('@').at(-1),
     );
+    // Unlike `target`, this gets alias names (like `@types/node24`) instead of real package names
+    const [, aliasedPackageName = packageName] = NPM_ALIAS_REGEX.exec(currentVersionRaw) || [];
 
     const blockedVersionRange = IGNORED_PACKAGE_RANGES_TO_UPDATE[packageName];
     if (blockedVersionRange && satisfies(upgradedVersion || '', blockedVersionRange)) {
@@ -89,10 +104,10 @@ export default defineConfig({
     }
 
     const [currentVersionSemver, upgradedVersionSemver] = [currentVersion, upgradedVersion].map(
-      (v) => tryParse(v || ''),
+      (version) => tryParse(version || ''),
     );
     return !(
-      PACKAGES_WITH_PINNED_MAJOR_VERSION.has(packageName) &&
+      PACKAGES_WITH_PINNED_MAJOR_VERSION.has(aliasedPackageName) &&
       currentVersionSemver?.major !== upgradedVersionSemver?.major
     );
   },
