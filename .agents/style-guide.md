@@ -165,7 +165,8 @@ If a word to ignore is only found in a single file:
 
 ### Vue
 
-- Move static variables into a separate non-setup `<script>` block in Vue SFCs for performance.
+- Move static variables into a separate non-setup `<script>` block in Vue SFCs for performance (if there are only type declarations to move, this won't change anything).
 - Do use inline composables: <https://alexop.dev/posts/inline-vue-composables-refactoring>
 - Prefer `shallowRef` over `ref`, but only when that actually makes a difference (for example, `shallowRef(false)` does not).
 - Don't add `| null` as a possible type for refs for no reason - usually implicit `undefined` works just fine.
+- Prefer `useTemplateRef` if it's available, and prefer not to add an explicit type paramater to it.
