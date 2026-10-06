@@ -165,6 +165,7 @@ If a word to ignore is only found in a single file:
 - To write a CLI, prefer `cleye`, unless a new dependency is unwanted or another tool was suggested.
   Always set `strictFlags: true` when using it.
 - If you're asked to create a changeset (<https://changesets.dev/>), always use its underlying name generator, `human-id`, for file names.
+  Don't use the imperative mood in changesets, i.e. "Add `foo`" form should never be used.
 
 ### Vue
 
