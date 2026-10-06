@@ -1,7 +1,7 @@
 import type {CSpellSettings} from 'cspell';
 
 const GLOBALLY_IGNORED_WORDS: Record<string, string[]> = {
-  names: ['andreww', 'cleye', 'verkit', 'worktrees'],
+  names: ['andreww', 'cleye', 'unutils', 'verkit', 'worktrees'],
   misc: ['knipignore'],
   englishIshWords: [],
 };

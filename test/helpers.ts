@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import {maybeCall} from '../src/utils.ts';
 
 type AnswerValue = string | boolean;
 
@@ -24,8 +25,7 @@ const ask = async ({
   }
   expect(message).toContain(expectedMessage);
 
-  const answer =
-    typeof answerOrGetAnswer === 'function' ? await answerOrGetAnswer() : answerOrGetAnswer;
+  const answer = await maybeCall(answerOrGetAnswer);
   const validationError = typeof answer === 'string' && validate?.(answer);
   if (validationError) {
     throw new Error(`Invalid answer: ${String(validationError)}`);

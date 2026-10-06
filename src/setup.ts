@@ -1,17 +1,9 @@
-import {existsSync} from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {getDocumentPath, getInstruction, readDocument} from './documents.ts';
+import {readFileSafe, toRelativeLink} from './utils.ts';
 
 export const AGENTS_FILE = 'AGENTS.md';
-
-const toRelativeLink = (directory: string, filePath: string) => {
-  const relativePath = path.relative(directory, filePath).replaceAll(path.sep, '/');
-  return relativePath.startsWith('../') ? relativePath : `./${relativePath}`;
-};
-
-const readFileIfExists = async (filePath: string) =>
-  existsSync(filePath) ? await fs.readFile(filePath, 'utf8') : undefined;
 
 /**
  * Adds the instruction that links the guidelines to the beginning of `AGENTS.md`, or creates the file.
@@ -38,7 +30,7 @@ export const setupGuidelines = async ({
     link === 'local' ? toRelativeLink(cwd, absoluteGuidelinesPath) : undefined,
   );
   const agentsFilePath = path.join(cwd, AGENTS_FILE);
-  const agentsFileContent = await readFileIfExists(agentsFilePath);
+  const agentsFileContent = await readFileSafe(agentsFilePath);
   await fs.writeFile(
     agentsFilePath,
     agentsFileContent == null ? instruction : `${instruction}\n${agentsFileContent}`,

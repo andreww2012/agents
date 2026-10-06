@@ -1,27 +1,10 @@
-import {execFileSync} from 'node:child_process';
 import {existsSync} from 'node:fs';
 import fs from 'node:fs/promises';
 import * as prompts from '@clack/prompts';
 import {DOCUMENTS, type DocumentName, getDocumentPath} from '../documents.ts';
 import {getNewContent} from '../update.ts';
+import {arrayIncludes, hasUncommittedChanges} from '../utils.ts';
 import {AbortError, confirmProjectRoot, handleCancel} from './utils.ts';
-
-const isDocumentName = (value: string): value is DocumentName =>
-  DOCUMENTS.some((document) => document === value);
-
-const hasUncommittedChanges = (filePath: string) => {
-  try {
-    // eslint-disable-next-line sonar/no-os-command-from-path -- git of the user is expected here
-    const status = execFileSync('git', ['status', '--porcelain', '--', filePath], {
-      encoding: 'utf8',
-      stdio: 'pipe',
-    });
-    return status.trim() !== '';
-  } catch {
-    // Not a git repository, or git is not installed
-    return false;
-  }
-};
 
 const updateInteractively = async (
   documentFromArguments: DocumentName | undefined,
@@ -51,7 +34,7 @@ const updateInteractively = async (
   }
 
   const shouldOverwrite =
-    !hasUncommittedChanges(filePath) ||
+    !(await hasUncommittedChanges(filePath)) ||
     handleCancel(
       await prompts.confirm({
         message: `${filePath} has uncommitted changes. Overwrite them?`,
@@ -71,7 +54,7 @@ const updateInteractively = async (
 export const update = async (document: string | undefined, customPath: string | undefined) => {
   prompts.intro('Update a document');
 
-  if (document != null && !isDocumentName(document)) {
+  if (document != null && !arrayIncludes(DOCUMENTS, document)) {
     throw new AbortError(
       `Unknown document: ${document}. Available documents: ${DOCUMENTS.join(', ')}`,
     );

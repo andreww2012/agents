@@ -1,9 +1,9 @@
-import {execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import * as prompts from '@clack/prompts';
 import {update} from '../src/cli/update.ts';
 import {readDocument} from '../src/documents.ts';
 import {updateDocument} from '../src/update.ts';
+import {exec} from '../src/utils.ts';
 import {enterTemporaryDirectory, leaveTemporaryDirectory, runWithAnswers} from './helpers.ts';
 
 // eslint-disable-next-line vitest/prefer-import-in-mock -- the mock doesn't follow the module types
@@ -15,8 +15,7 @@ const OUTDATED_GUIDELINES = '# Guidelines\n\nOld guidelines\n';
 
 const CHANGED_GUIDELINES = '# Guidelines\n\nMy guidelines\n';
 
-// eslint-disable-next-line sonar/no-os-command-from-path -- git of the user is expected here
-const git = (...parameters: string[]) => execFileSync('git', parameters, {stdio: 'ignore'});
+const git = (...parameters: string[]) => exec('git', parameters);
 
 const readFile = (filePath: string) => fs.readFile(filePath, 'utf8');
 
@@ -27,9 +26,9 @@ describe('update', () => {
     await enterTemporaryDirectory();
     await fs.mkdir('.agents');
     await fs.writeFile(GUIDELINES_PATH, OUTDATED_GUIDELINES);
-    git('init');
-    git('add', '.');
-    git(
+    await git('init');
+    await git('add', '.');
+    await git(
       '-c',
       'user.name=Test',
       '-c',

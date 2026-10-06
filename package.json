@@ -75,6 +75,7 @@
     "consola": "3.4.2"
   },
   "devDependencies": {
+    "@andreww2012/unutils": "0.1.0",
     "@antfu/ni": "30.6.0",
     "@changesets/changelog-github": "1.0.1",
     "@changesets/cli": "3.0.3",
