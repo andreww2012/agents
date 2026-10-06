@@ -20,10 +20,16 @@ export type DocumentName = (typeof DOCUMENTS)[number];
 
 export const getDocumentPath = (document: DocumentName) => `.agents/${document}.md`;
 
-export const getDocumentUrl = (document: DocumentName, {raw = false} = {}) =>
+const getDocumentUrl = (document: DocumentName, {raw = false} = {}) =>
   raw
     ? `https://raw.githubusercontent.com/${repository}/${commitHash}/${getDocumentPath(document)}`
     : `https://github.com/${repository}/blob/${commitHash}/${getDocumentPath(document)}`;
+
+/** Text for `AGENTS.md` that links the guidelines, by default the published version on GitHub */
+export const getInstruction = (link = getDocumentUrl('guidelines', {raw: true})) =>
+  `Before your first response, you MUST read [the project guidelines](${link}) in full.
+Follow them in everything you do, even when you are only answering a question.
+`;
 
 /** Reads the document shipped with the package and adds the source link below its heading */
 export const readDocument = async (document: DocumentName) => {

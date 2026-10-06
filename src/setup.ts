@@ -2,17 +2,12 @@ import {existsSync} from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import * as prompts from '@clack/prompts';
-import {getDocumentPath, getDocumentUrl, readDocument} from './documents.ts';
+import {getDocumentPath, getInstruction, readDocument} from './documents.ts';
 import {AbortError, confirmProjectRoot, handleCancel, readFileIfExists} from './utils.ts';
 
 const AGENTS_FILE = 'AGENTS.md';
 
 const DEFAULT_GUIDELINES_PATH = getDocumentPath('guidelines');
-
-const getInstruction = (link: string) =>
-  `Before your first response, you MUST read [the project guidelines](${link}) in full.
-Follow them in everything you do, even when you are only answering a question.
-`;
 
 const toRelativeLink = (filePath: string) => {
   const relativePath = path.relative(process.cwd(), filePath).replaceAll(path.sep, '/');
@@ -81,9 +76,7 @@ export const setup = async () => {
       });
   }
 
-  const instruction = getInstruction(
-    guidelinesPath ? toRelativeLink(guidelinesPath) : getDocumentUrl('guidelines', {raw: true}),
-  );
+  const instruction = getInstruction(guidelinesPath ? toRelativeLink(guidelinesPath) : undefined);
   await fs.writeFile(
     AGENTS_FILE,
     agentsFileContent == null ? instruction : `${instruction}\n${agentsFileContent}`,

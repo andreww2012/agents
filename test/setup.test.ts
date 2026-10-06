@@ -1,6 +1,6 @@
 import {existsSync} from 'node:fs';
 import fs from 'node:fs/promises';
-import {readDocument} from '../src/documents.ts';
+import {getInstruction, readDocument} from '../src/documents.ts';
 import {setup} from '../src/setup.ts';
 import {enterTemporaryDirectory, leaveTemporaryDirectory, runWithAnswers} from './helpers.ts';
 
@@ -8,11 +8,6 @@ import {enterTemporaryDirectory, leaveTemporaryDirectory, runWithAnswers} from '
 vi.mock('@clack/prompts', async () => (await import('./helpers.ts')).promptsMock);
 
 const EXISTING_AGENTS_FILE_CONTENT = '# Project\n';
-
-const getInstruction = (link: string) =>
-  `Before your first response, you MUST read [the project guidelines](${link}) in full.
-Follow them in everything you do, even when you are only answering a question.
-`;
 
 const readFile = (filePath: string) => fs.readFile(filePath, 'utf8');
 

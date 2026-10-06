@@ -35,6 +35,19 @@ If the file has uncommitted changes, it asks before overwriting them.
 Pass `--path` if you saved the file outside of `.agents`.
 Run the CLI with `--help` to see all commands and flags.
 
+### In code
+
+The package exports the instruction text, so you can add it to `AGENTS.md` yourself:
+
+```ts
+import {getInstruction} from '@andreww2012/ai-guidelines';
+
+// Links the file on GitHub at the commit of the package version
+getInstruction();
+// Links your copy of the file
+getInstruction('./.agents/guidelines.md');
+```
+
 ### Without the CLI
 
 Replace `COMMIT_HASH` below with the hash of the commit you want to use (for example, the latest one on `main`).
@@ -70,7 +83,7 @@ To get updates, change the hash.
 
 ## Development
 
-- `nr build` builds the CLI into `dist`, `node dist/cli.mjs` runs it
+- `nr build` builds the CLI and the library into `dist`, `node dist/cli.mjs` runs the CLI
 - `nr t` runs the tests
 - `nr test` runs all checks and the tests
 - `nr ch` adds a [changeset](https://github.com/changesets/changesets) for the next release

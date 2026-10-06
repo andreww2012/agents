@@ -10,6 +10,6 @@ if (!documentsCommitHash) {
 }
 
 export default defineConfig({
-  entry: 'src/cli.ts',
+  entry: ['src/cli.ts', 'src/index.ts'],
   env: {DOCUMENTS_COMMIT_HASH: documentsCommitHash},
 });
