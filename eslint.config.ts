@@ -34,6 +34,8 @@ export default eslintConfig({
       requireModuleExtensions: true,
     },
     markdown: {
+      // Uses Prettier with default options, which conflicts with oxfmt above
+      configFormatFencedCodeBlocks: false,
       configSentencesPerLine: {
         // Putting every sentence on its own line causes line wraps in the changelog
         ignores: ['.changeset/**/*.md'],
