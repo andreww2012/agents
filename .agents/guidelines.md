@@ -78,6 +78,10 @@ In general, don't mention that you followed an instruction - that is implied.
 - Wrap comments to fit the max line length (usually set in `.editorconfig` or the formatter config).
 - Minimize referencing symbol (variable) names in comments: if they ever get renamed in the codebase, there's a real risk of your reference becoming stale.
 
+### Frontend
+
+Web UIs must adhere to the [Web Content Accessibility Guidelines (WCAG) 2.2](https://www.w3.org/TR/WCAG22) standard, level AA.
+
 ## Workflow
 
 ### Committing
@@ -88,6 +92,8 @@ Unless you're asked to, never add yourself as a co-author.
 At the end of your work, *suggest* commit message(s), respecting the project committing style (often it's enforced by `commitlint`).
 
 ### Other
+
+If someone points out your mistake, check all your changes for other mistakes of the same kind.
 
 Use git stash only if there's no other way: prefer git worktrees or throwaway repos.
 
