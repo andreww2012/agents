@@ -11,6 +11,7 @@
     "target": "es2024",
     "allowJs": true,
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
@@ -34,7 +35,7 @@
 
     /* If NOT transpiling with TypeScript: */
     // "module": "preserve",
-    // "noEmit": true,
+    "noEmit": true,
 
     /* If your code runs in the DOM: */
     // "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Error", "ESNext.Iterator", "ESNext.Promise", "dom", "dom.iterable"],

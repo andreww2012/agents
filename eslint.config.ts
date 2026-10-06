@@ -4,7 +4,7 @@ import {
   GLOB_MARKDOWN,
   GLOB_YML_YAML_EXTENSION,
 } from 'eslint-config-un/globs';
-import oxfmtConfig from './oxfmt.config.js';
+import oxfmtConfig from './oxfmt.config.ts';
 
 export default eslintConfig({
   ignores: ['CHANGELOG.md'],
@@ -29,6 +29,9 @@ export default eslintConfig({
           singleQuote: oxfmtConfig.singleQuote,
         },
       ],
+    },
+    import: {
+      requireModuleExtensions: true,
     },
     markdown: {
       configSentencesPerLine: {

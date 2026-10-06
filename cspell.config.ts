@@ -1,7 +1,7 @@
 import type {CSpellSettings} from 'cspell';
 
 const GLOBALLY_IGNORED_WORDS: Record<string, string[]> = {
-  names: ['andreww', 'verkit', 'worktrees'],
+  names: ['andreww', 'cleye', 'verkit', 'worktrees'],
   misc: ['knipignore'],
   englishIshWords: [],
 };
@@ -15,7 +15,7 @@ export default {
   overrides: [
     {
       filename: ['.agents/guidelines.md', 'cspell.config.ts'],
-      words: ['behaviour', 'organisation', 'nstall', 'lockfiles', 'cleye', 'coeff'],
+      words: ['behaviour', 'organisation', 'nstall', 'lockfiles', 'coeff'],
     },
   ],
 } satisfies CSpellSettings;

@@ -1,10 +1,35 @@
 {
-  "name": "agents",
+  "name": "@andreww2012/ai-guidelines",
   "version": "0.0.0",
-  "private": true,
+  "description": "Generic guidelines for AI coding agents and a CLI to set them up in your project",
+  "keywords": [
+    "agents",
+    "agents-md",
+    "ai",
+    "cli",
+    "guidelines",
+    "claude",
+    "codex"
+  ],
+  "homepage": "https://github.com/andreww2012/ai-guidelines",
+  "bugs": {
+    "url": "https://github.com/andreww2012/ai-guidelines/issues/new"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreww2012/ai-guidelines.git"
+  },
   "license": "MIT",
   "author": "andreww2012",
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "bin": "dist/cli.mjs",
+  "files": [
+    ".agents/guidelines.md",
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "prepack": "nr build",
@@ -39,6 +64,11 @@
     "test": "nr check:deps && nr check && nr test:vitest",
     "ch": "changeset add --message \"___REPLACE_ME___\"",
     "release": "changeset publish"
+  },
+  "dependencies": {
+    "@clack/prompts": "1.8.1",
+    "cleye": "2.7.0",
+    "consola": "3.4.2"
   },
   "devDependencies": {
     "@antfu/ni": "30.6.0",
