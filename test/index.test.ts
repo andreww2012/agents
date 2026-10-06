@@ -21,7 +21,7 @@ describe('getInstruction', () => {
     expect(readme).toContain(getInstruction('./.agents/guidelines.md'));
     expect(readme).toContain(
       getInstruction(
-        'https://raw.githubusercontent.com/andreww2012/ai-guidelines/COMMIT_HASH/.agents/guidelines.md',
+        'https://raw.githubusercontent.com/andreww2012/ai-guidelines/@andreww2012/ai-guidelines@VERSION/.agents/guidelines.md',
       ),
     );
   });

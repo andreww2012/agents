@@ -10,7 +10,7 @@ There are two ways to use the guidelines in your project:
   You can change your copy as you like.
 - **Link the file on GitHub** from `AGENTS.md`.
   The agent downloads the file itself, so it needs network access.
-  The link has a commit hash, so its content never changes.
+  The link has the package version, so its content stays the same.
 
 ### With the CLI
 
@@ -37,20 +37,28 @@ Run the CLI with `--help` to see all commands and flags.
 
 ### In code
 
-The package exports the instruction text, so you can add it to `AGENTS.md` yourself:
+The package can do the same as the CLI, but it doesn't ask questions:
 
 ```ts
-import {getInstruction} from '@andreww2012/ai-guidelines';
+import {setupGuidelines, updateDocument} from '@andreww2012/ai-guidelines';
 
-// Links the file on GitHub at the commit of the package version
-getInstruction();
-// Links your copy of the file
-getInstruction('./.agents/guidelines.md');
+// Copies the guidelines into `.agents` and links them from `AGENTS.md`
+await setupGuidelines();
+// Links the file on GitHub instead
+await setupGuidelines({link: 'remote'});
+// Resolves to `false` if the copy is already up to date
+await updateDocument('guidelines');
 ```
+
+Unlike the CLI, `setupGuidelines` changes an existing `AGENTS.md` without asking, and `updateDocument` overwrites uncommitted changes.
+Both take the `cwd` option, which is the current directory by default.
+
+To build your own setup, use `getInstruction` (the text for `AGENTS.md`), `readDocument`, `getDocumentUrl` and other helpers.
+`documentsCommitHash` is the hash of the last commit that changed the documents in this version of the package.
 
 ### Without the CLI
 
-Replace `COMMIT_HASH` below with the hash of the commit you want to use (for example, the latest one on `main`).
+Replace `VERSION` below with the package version you want to use (for example, the latest one on npm).
 
 #### Copy the file
 
@@ -58,7 +66,7 @@ Replace `COMMIT_HASH` below with the hash of the commit you want to use (for exa
 2. Give credit by adding the source link right below the heading:
 
    ```md
-   Source: <https://github.com/andreww2012/ai-guidelines/blob/COMMIT_HASH/.agents/guidelines.md>
+   Source: <https://github.com/andreww2012/ai-guidelines/blob/@andreww2012/ai-guidelines@VERSION/.agents/guidelines.md>
    ```
 
 3. Link the file from `AGENTS.md`:
@@ -68,18 +76,18 @@ Replace `COMMIT_HASH` below with the hash of the commit you want to use (for exa
    Follow them in everything you do, even when you are only answering a question.
    ```
 
-To get updates, compare your copy with the newer version and update the hash in the source link.
+To get updates, compare your copy with the newer version and update the version in the source link.
 
 #### Link to the file
 
 Link the raw version of the file from `AGENTS.md`:
 
 ```md
-Before your first response, you MUST read [the project guidelines](https://raw.githubusercontent.com/andreww2012/ai-guidelines/COMMIT_HASH/.agents/guidelines.md) in full.
+Before your first response, you MUST read [the project guidelines](https://raw.githubusercontent.com/andreww2012/ai-guidelines/@andreww2012/ai-guidelines@VERSION/.agents/guidelines.md) in full.
 Follow them in everything you do, even when you are only answering a question.
 ```
 
-To get updates, change the hash.
+To get updates, change the version.
 
 ## Development
 
@@ -88,5 +96,6 @@ To get updates, change the hash.
 - `nr test` runs all checks and the tests
 - `nr ch` adds a [changeset](https://github.com/changesets/changesets) for the next release
 
-The CLI links the guidelines at the last commit that changed `.agents`, which is saved at build time.
+Links to the documents use the git tag that changesets creates on publish, like `@andreww2012/ai-guidelines@1.0.0`.
+The hash of the last commit that changed `.agents` is saved at build time.
 CI publishes the package to npm when a release pull request created by changesets is merged.

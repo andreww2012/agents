@@ -1,83 +1,38 @@
-import {execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
-import * as prompts from '@clack/prompts';
-import {DOCUMENTS, type DocumentName, getDocumentPath, readDocument} from './documents.ts';
-import {AbortError, confirmProjectRoot, handleCancel, readFileIfExists} from './utils.ts';
+import path from 'node:path';
+import {type DocumentName, getDocumentPath, readDocument} from './documents.ts';
 
-const isDocumentName = (value: string): value is DocumentName =>
-  DOCUMENTS.some((document) => document === value);
-
-const hasUncommittedChanges = (filePath: string) => {
-  try {
-    // eslint-disable-next-line sonar/no-os-command-from-path -- git of the user is expected here
-    const status = execFileSync('git', ['status', '--porcelain', '--', filePath], {
-      encoding: 'utf8',
-      stdio: 'pipe',
-    });
-    return status.trim() !== '';
-  } catch {
-    // Not a git repository, or git is not installed
-    return false;
-  }
-};
-
-const updateDocument = async (
-  documentFromArguments: DocumentName | undefined,
-  customPath: string | undefined,
-) => {
-  const document =
-    documentFromArguments ||
-    handleCancel(
-      await prompts.select({
-        message: 'Which document to update?',
-        options: DOCUMENTS.map((name) => ({
-          value: name,
-          hint: customPath || getDocumentPath(name),
-        })),
-      }),
-    );
-  const filePath = customPath || getDocumentPath(document);
-
+/** Resolves to the content to update the copy of the document with, or `undefined` if it's up to date */
+export const getNewContent = async (document: DocumentName, filePath: string) => {
   const [currentContent, newContent] = await Promise.all([
-    readFileIfExists(filePath),
+    fs.readFile(filePath, 'utf8'),
     readDocument(document),
   ]);
-  if (currentContent == null) {
-    throw new AbortError(`${filePath} doesn't exist`);
-  }
-
-  if (currentContent.trim() === newContent.trim()) {
-    prompts.outro(`${filePath} is already up to date, nothing was updated`);
-    return;
-  }
-
-  const shouldOverwrite =
-    !hasUncommittedChanges(filePath) ||
-    handleCancel(
-      await prompts.confirm({
-        message: `${filePath} has uncommitted changes. Overwrite them?`,
-        initialValue: false,
-      }),
-    );
-  if (shouldOverwrite) {
-    await fs.writeFile(filePath, newContent);
-    prompts.outro(`Updated ${filePath}`);
-  } else if (documentFromArguments) {
-    throw new AbortError();
-  } else {
-    await updateDocument(undefined, customPath);
-  }
+  return currentContent.trim() === newContent.trim() ? undefined : newContent;
 };
 
-export const update = async (document: string | undefined, customPath: string | undefined) => {
-  prompts.intro('Update a document');
-
-  if (document != null && !isDocumentName(document)) {
-    throw new AbortError(
-      `Unknown document: ${document}. Available documents: ${DOCUMENTS.join(', ')}`,
-    );
+/**
+ * Updates the copy of the document in the project to the version from this package.
+ * Resolves to `false` if the copy is already up to date
+ */
+// eslint-disable-next-line unicorn/consistent-boolean-name -- it's an action, the result only tells if it changed anything
+export const updateDocument = async (
+  document: DocumentName,
+  {
+    path: filePath = getDocumentPath(document),
+    cwd = process.cwd(),
+  }: {
+    /** Path to the copy, relative to `cwd` */
+    path?: string;
+    cwd?: string;
+  } = {},
+) => {
+  const absolutePath = path.resolve(cwd, filePath);
+  const newContent = await getNewContent(document, absolutePath);
+  if (newContent == null) {
+    return false;
   }
 
-  await confirmProjectRoot();
-  await updateDocument(document, customPath);
+  await fs.writeFile(absolutePath, newContent);
+  return true;
 };

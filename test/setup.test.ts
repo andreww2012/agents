@@ -1,13 +1,17 @@
 import {existsSync} from 'node:fs';
 import fs from 'node:fs/promises';
+import packageJson from '../package.json' with {type: 'json'};
+import {setup} from '../src/cli/setup.ts';
 import {getInstruction, readDocument} from '../src/documents.ts';
-import {setup} from '../src/setup.ts';
+import {setupGuidelines} from '../src/setup.ts';
 import {enterTemporaryDirectory, leaveTemporaryDirectory, runWithAnswers} from './helpers.ts';
 
 // eslint-disable-next-line vitest/prefer-import-in-mock -- the mock doesn't follow the module types
 vi.mock('@clack/prompts', async () => (await import('./helpers.ts')).promptsMock);
 
 const EXISTING_AGENTS_FILE_CONTENT = '# Project\n';
+
+const tag = `${packageJson.name}@${packageJson.version}`;
 
 const readFile = (filePath: string) => fs.readFile(filePath, 'utf8');
 
@@ -54,7 +58,7 @@ describe('setup', () => {
     expect(guidelines.split('\n').slice(0, 4)).toStrictEqual([
       '# Guidelines',
       '',
-      'Source: <https://github.com/andreww2012/ai-guidelines/blob/main/.agents/guidelines.md>',
+      `Source: <https://github.com/andreww2012/ai-guidelines/blob/${tag}/.agents/guidelines.md>`,
       '',
     ]);
   });
@@ -74,7 +78,7 @@ describe('setup', () => {
 
     await expect(readFile('AGENTS.md')).resolves.toBe(
       getInstruction(
-        'https://raw.githubusercontent.com/andreww2012/ai-guidelines/main/.agents/guidelines.md',
+        `https://raw.githubusercontent.com/andreww2012/ai-guidelines/${tag}/.agents/guidelines.md`,
       ),
     );
     expect(existsSync('.agents')).toBe(false);
@@ -181,5 +185,42 @@ describe('setup', () => {
 
     await expect(readFile('guidelines.md')).resolves.toBe('My guidelines');
     await expect(readFile('AGENTS.md')).resolves.toBe(EXISTING_AGENTS_FILE_CONTENT);
+  });
+});
+
+describe('setupGuidelines', () => {
+  beforeEach(async () => {
+    await enterTemporaryDirectory();
+    await fs.mkdir('project');
+  });
+
+  afterEach(leaveTemporaryDirectory);
+
+  it('sets up the guidelines in the passed directory without asking', async () => {
+    await fs.writeFile('project/AGENTS.md', EXISTING_AGENTS_FILE_CONTENT);
+
+    await setupGuidelines({path: 'docs/ai.md', cwd: 'project'});
+
+    await expect(readFile('project/AGENTS.md')).resolves.toBe(
+      `${getInstruction('./docs/ai.md')}\n${EXISTING_AGENTS_FILE_CONTENT}`,
+    );
+    await expect(readFile('project/docs/ai.md')).resolves.toBe(await readDocument('guidelines'));
+  });
+
+  it('links the remote guidelines', async () => {
+    await setupGuidelines({link: 'remote', cwd: 'project'});
+
+    await expect(readFile('project/AGENTS.md')).resolves.toBe(getInstruction());
+    expect(existsSync('project/.agents')).toBe(false);
+  });
+
+  it('fails if the copy of the guidelines already exists', async () => {
+    await fs.mkdir('project/.agents');
+    await fs.writeFile('project/.agents/guidelines.md', 'My guidelines');
+
+    await expect(setupGuidelines({cwd: 'project'})).rejects.toThrow('EEXIST');
+
+    await expect(readFile('project/.agents/guidelines.md')).resolves.toBe('My guidelines');
+    expect(existsSync('project/AGENTS.md')).toBe(false);
   });
 });

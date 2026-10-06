@@ -1,8 +1,9 @@
 import {execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import * as prompts from '@clack/prompts';
+import {update} from '../src/cli/update.ts';
 import {readDocument} from '../src/documents.ts';
-import {update} from '../src/update.ts';
+import {updateDocument} from '../src/update.ts';
 import {enterTemporaryDirectory, leaveTemporaryDirectory, runWithAnswers} from './helpers.ts';
 
 // eslint-disable-next-line vitest/prefer-import-in-mock -- the mock doesn't follow the module types
@@ -133,5 +134,32 @@ describe('update', () => {
     await expect(runWithAnswers(() => update('unknown', undefined), [])).rejects.toThrow(
       'Unknown document: unknown',
     );
+  });
+});
+
+describe('updateDocument', () => {
+  beforeEach(async () => {
+    await enterTemporaryDirectory();
+    await fs.mkdir('project');
+    await fs.writeFile('project/ai.md', CHANGED_GUIDELINES);
+  });
+
+  afterEach(leaveTemporaryDirectory);
+
+  it('updates the document in the passed directory without asking', async () => {
+    await expect(updateDocument('guidelines', {path: 'ai.md', cwd: 'project'})).resolves.toBe(true);
+
+    await expect(readFile('project/ai.md')).resolves.toBe(await readDocument('guidelines'));
+  });
+
+  it('resolves to false if the document is up to date', async () => {
+    const content = await readDocument('guidelines');
+    await fs.writeFile('project/ai.md', content);
+
+    await expect(updateDocument('guidelines', {path: 'ai.md', cwd: 'project'})).resolves.toBe(
+      false,
+    );
+
+    await expect(readFile('project/ai.md')).resolves.toBe(content);
   });
 });

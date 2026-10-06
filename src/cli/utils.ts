@@ -1,5 +1,4 @@
 import {existsSync} from 'node:fs';
-import fs from 'node:fs/promises';
 import * as prompts from '@clack/prompts';
 
 export class AbortError extends Error {
@@ -33,6 +32,3 @@ export const confirmProjectRoot = async () => {
     throw new AbortError();
   }
 };
-
-export const readFileIfExists = async (filePath: string) =>
-  existsSync(filePath) ? await fs.readFile(filePath, 'utf8') : undefined;

@@ -3,10 +3,10 @@ import * as prompts from '@clack/prompts';
 import {cli, command} from 'cleye';
 import {consola} from 'consola';
 import packageJson from '../package.json' with {type: 'json'};
+import {setup} from './cli/setup.ts';
+import {update} from './cli/update.ts';
+import {AbortError} from './cli/utils.ts';
 import {DOCUMENTS} from './documents.ts';
-import {setup} from './setup.ts';
-import {update} from './update.ts';
-import {AbortError} from './utils.ts';
 
 const handleErrors = (promise: Promise<void>) =>
   promise.catch((error: unknown) => {
