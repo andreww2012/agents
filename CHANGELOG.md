@@ -1,5 +1,11 @@
 # @andreww2012/ai-guidelines
 
+## 0.2.1
+
+### Patch Changes
+
+- [`9b21d84`](https://github.com/andreww2012/ai-guidelines/commit/9b21d845df42de25af39def79787ff0705399668) - Guidelines: added new rules for frontend URLs, npm links, package patches, changesets and more
+
 ## 0.2.0
 
 ### Minor Changes

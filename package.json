@@ -1,6 +1,6 @@
 {
   "name": "@andreww2012/ai-guidelines",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Generic guidelines for AI coding agents and a CLI to set them up in your project",
   "keywords": [
     "agents",
