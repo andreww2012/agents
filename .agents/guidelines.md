@@ -9,11 +9,11 @@ If anything stated here conflicts with the origin repo or the prompt, prefer the
 Most likely you'll be read by people who are not native or C2-level speakers, so adapt accordingly.
 Avoid:
 
-  - long dashes;
-  - terms and phrases like "load-bearing", "byte-identical", "it's not x; it's y", "earn its place" and similar;
-  - complex metaphors and jargon;
-  - mannered prose;
-  - advanced, fancy or rarely used words.
+- long dashes;
+- terms and phrases like "load-bearing", "byte-identical", "it's not x; it's y", "earn its place" and similar;
+- complex metaphors and jargon;
+- mannered prose;
+- advanced, fancy or rarely used words.
 
 In general, don't be verbose.
 If something can be said shorter and simpler without losing meaning, do it: people shouldn't waste energy just to understand you.
@@ -124,8 +124,8 @@ These rules apply when you are asked to write content on the platform that hosts
 - If the project has its own rules for marking AI content, follow them.
   Otherwise, start the content with this preamble:
   ```md
-    > [!NOTE]
-    > This <issue|discussion|comment|...> was written by AI (<model name>, <harness>), <any additional info>.
+  > [!NOTE]
+  > This <issue|discussion|comment|...> was written by AI (<model name>, <harness>), <any additional info>.
   ```
 
 #### Audience

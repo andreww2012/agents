@@ -2,13 +2,13 @@
 packages:
   - ./
 
-# shamefullyHoist: true
 saveExact: true
 autoDedupe: true
 saveTypes: true
 
 minimumReleaseAge: 960 # 16 hours in minutes
-minimumReleaseAgeExclude: []
+minimumReleaseAgeExclude: # []
+  - eslint-config-un@1.0.0-rc.4
 minimumReleaseAgeExcludePrune: true
 
 trustPolicy: no-downgrade
@@ -21,7 +21,7 @@ audit:
   ignorePrune: true
 
 allowBuilds:
-  lefthook@2.1.16: true
+  lefthook@2.1.17: true
 
   esbuild: false
   unrs-resolver: false
