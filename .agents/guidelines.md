@@ -109,7 +109,8 @@ If a modal, sidebar, etc. is worth sharing by link, give it its own URL.
 NEVER stage/unstage or commit changes unless explicitly asked to.
 Assume your change may be staged or committed by a user (most likely) or another agent at any point.
 Unless you're asked to, never add yourself as a co-author.
-At the end of your work, *suggest* commit message(s), respecting the project committing style (often it's enforced by `commitlint`).
+At the end of your work, *suggest* commit message(s) that follow the project's commit style.
+Check them with the project's commit linter (e.g. `commitlint`), if there is one.
 Always put package names inside backticks in commit messages.
 
 ### Other
@@ -164,7 +165,7 @@ Use `kebab-case` for file and directory names, unless they should be called diff
 
 Avoid British variants of words like *behaviour* or *organisation* unless the project allows them.
 
-Avoid invoking unused package managers' commands - e.g. if `pnpm` is used in the project, you must use `pnpm why` instead of `npm why`, unless the equivalent is missing.
+Run all commands through the project's package manager, including one-off binaries: e.g. in a pnpm project, use `pnpm why` and `pnpm (exec|dlx)` instead of `npm why` and `npx`, unless the equivalent is missing.
 If [`@antfu/ni` commands](https://raw.githubusercontent.com/antfu-collective/ni/refs/heads/main/README.md) are available, prefer them over package manager native ones (e.g. `ni` instead of `(p)npm i(nstall)`, `nr` instead of `(p)npm run` and so on).
 
 Avoid editing generated files, including package managers' lockfiles, unless there's a good reason to do otherwise.
@@ -173,7 +174,8 @@ Avoid editing generated files, including package managers' lockfiles, unless the
 
 When the task is done, run the available tools on *all changed* files (not only source files!), unless it's not possible or you're told otherwise.
 Ignore the pre-existing unrelated issues.
-If there's a package.json script for the tool, prefer it over calling the tool directly.
+Prefer the tool's `package.json` script if you can limit it to the changed files (usually by passing their paths).
+Otherwise, call the tool directly on the changed files, with the same options the script uses.
 
 The commonly used tools are as follows (may and will vary depending on a project): `tsc`, `vue-tsc`, `eslint`, `oxlint`, `prettier`, `oxfmt`, `vitest`, `knip`, `cspell` (use `--no-progress --no-summary`), dependency vulnerability checker (if the lockfile was modified), for example `pnpm audit --audit-level high` (usually only high+ vulnerabilities are important to fix).
 
