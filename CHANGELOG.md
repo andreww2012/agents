@@ -1,5 +1,15 @@
 # @andreww2012/ai-guidelines
 
+## 0.2.2
+
+### Patch Changes
+
+- [`a97e3d0`](https://github.com/andreww2012/ai-guidelines/commit/a97e3d0d4666fd87fee8b4381f72d425d14b2b43) - Guidelines: commit messages are now checked with the project's commit linter, one-off binaries are run through the project's package manager, and checks are limited to changed files
+
+- [`d5bbd58`](https://github.com/andreww2012/ai-guidelines/commit/d5bbd582d02d1c70342e921b6f2641a368a53a98) - Guidelines: added a rule against whitespace at the start and end of element text in Vue templates
+
+- [`b54cba1`](https://github.com/andreww2012/ai-guidelines/commit/b54cba168490cbdc3624cf3af7111efa37f4a833) - Guidelines: added rules for type annotations, `forEach`, conditional spreads and query parameter names; reworked the CONSTANT_CASE rule
+
 ## 0.2.1
 
 ### Patch Changes
