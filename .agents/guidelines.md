@@ -207,3 +207,6 @@ If a word to ignore is only found in a single file:
 - Avoid `reactive`; only use it when strictly necessary.
 - Don't add `| null` as a possible type for refs for no reason - usually implicit `undefined` works just fine.
 - Prefer `useTemplateRef` if it's available, and prefer not to add an explicit type parameter to it.
+- Don't end an element's text with whitespace, including a line break before the closing tag: Vue keeps it as a space, which some browsers show when the text is selected.
+  The same goes for whitespace before an element that may not render or be visible (`v-if`, `v-show`, etc.): move the space inside it, like `{{ label }}<span v-if="…"> (optional)</span>`.
+  If the element has nothing but text, also start the text right after the opening tag.
