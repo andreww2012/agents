@@ -51,7 +51,7 @@ In general, don't mention that you followed an instruction - that is implied.
   - ❌ `!a ? c : b`, `if (!a) { ... } else { ... }`
 - If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible: adding or removing object properties is often slower than with `Map`.
 - If `||` and `??` operators work the same, prefer using `||`.
-- Use CONSTANT_CASE only for constants holding a primitive or a read-only array/object (`as const`, `Object.freeze`), no matter how its values are computed:
+- Use CONSTANT_CASE only for constants holding a primitive, a read-only array/object (`as const`, `Object.freeze`, etc.), a `Set`/`Map` typed as `ReadonlySet`/`ReadonlyMap` or a `RegExp`, no matter how its values are computed:
   - ✅ `const FOO = 'bar'`
   - ✅ `const FOO = ['bar', 1 + 2, Math.random()] as const`
   - ✅ `const FOO = Object.freeze({bar: Math.random()})`
