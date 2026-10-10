@@ -49,18 +49,25 @@ In general, don't mention that you followed an instruction - that is implied.
 - Prefer "direct" conditions over negated ones:
   - ✅ `a ? b : c`, `if (a) { ... } else { ... }`
   - ❌ `!a ? c : b`, `if (!a) { ... } else { ... }`
-- If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible: adding or removing object properties is often slower than with `Map`.
 - If `||` and `??` operators work the same, prefer using `||`.
-- Use CONSTANT_CASE only for constants holding a primitive, a read-only array/object (`as const`, `Object.freeze`, etc.), a `Set`/`Map` typed as `ReadonlySet`/`ReadonlyMap` or a `RegExp`, no matter how its values are computed:
+- Use CONSTANT_CASE only for constants holding a primitive, a read-only array/object (`as const`, `Object.freeze`, `: Readonly<T>`, etc.), a `Set`/`Map` typed as `ReadonlySet`/`ReadonlyMap` or a `RegExp`, no matter how its values are computed:
   - ✅ `const FOO = 'bar'`
   - ✅ `const FOO = ['bar', 1 + 2, Math.random()] as const`
   - ✅ `const FOO = Object.freeze({bar: Math.random()})`
   - ❌ `const FOO = [1, 2, 3]`
   - ❌ `const COLLATOR = new Intl.Collator('ru')`
+
+  Tip: in plain JS files that are still type-checked, mark values as read-only via JSDoc.
+  In JS files that are not type-checked, the read-only requirement doesn't apply.
 - Prefer `Array#reduce` over creating an object and modifying its properties in a loop.
 - When a symbol is only used once, prefer to inline it unless it is non-trivial or its name conveys meaning the value alone doesn't (e.g. don't inline `const DEFAULT_SORTING = 'rank'` even if `DEFAULT_SORTING` is only used once).
 - Prefer `Array#forEach` over `for` loops, unless a loop is better by a meaningful metric (performance, ergonomics, etc.).
 - Prefer `...(condition && {property: ...})` over `...(condition ? {property: ...} : {})` or `property: condition ? ... : undefined` (use the last form only when the key must exist even if its value is `undefined`).
+
+### Performance
+
+- Run independent consecutive `await`s concurrently (`Promise.all` or similar), unless the order or a concurrency limit matters.
+- If you need a map that is initially empty and will be mutated, use `Map` instead of a plain object whenever possible: adding or removing object properties is often slower than with `Map`.
 
 ### TypeScript
 
@@ -68,6 +75,7 @@ In general, don't mention that you followed an instruction - that is implied.
   Safe type casting exceptions: `as unknown`, `as const`, `satisfies T as T`.
 - Prefer `Record<string, unknown>` over the `object` type as the former is usually simpler to reason about.
 - Don't use `satisfies T` if the regular type annotation (`: T`) would work the same.
+  Tip: if `as const` is only there for the CONSTANT_CASE rule, use `: Readonly<T>` instead of `as const satisfies T` if possible.
 
 ### Style
 
@@ -112,16 +120,7 @@ Unless you're asked to, never add yourself as a co-author.
 At the end of your work, *suggest* commit message(s) that follow the project's commit style.
 Check them with the project's commit linter (e.g. `commitlint`), if there is one.
 Always put package names inside backticks in commit messages.
-
-### Other
-
-If someone points out your mistake, check all your changes for other mistakes of the same kind.
-
-Use git stash only if there's no other way: prefer git worktrees or throwaway repos.
-
-If you create a package patch, always add comments explaining all the changes.
-Some package managers, for example pnpm, allow free text before the diff in a patch file.
-This is a good place for these comments.
+Always use the imperative mood in commit headers.
 
 ### Writing on the hosting platform
 
@@ -150,6 +149,20 @@ Find out:
 
 Use the contribution rules, issue templates, recent issues, and maintainer replies as sources.
 If you cannot find this information, assume maintainers are busy people who do not trust AI content: be short and specific, and include only facts you verified.
+
+### Uncategorized
+
+If someone points out your mistake, check all your changes for other mistakes of the same kind.
+
+Use git stash only if there's no other way: prefer git worktrees or throwaway repos.
+
+If you create a package patch, always add comments explaining all the changes.
+Some package managers, for example pnpm, allow free text before the diff in a patch file.
+This is a good place for these comments.
+
+If you find a likely bug in a dependency, mention it at the end of your work.
+If the user asks you to draft an issue, draft it in the same session: in raw Markdown, with *minimal* text and a *minimal* reproduction, and without the AI disclosure preamble.
+NEVER send it to the Internet.
 
 ## Misc (still VERY important)
 
@@ -198,6 +211,7 @@ If a word to ignore is only found in a single file:
 - If you're asked to create a changeset (<https://changesets.dev/>), always use its underlying name generator, `human-id`, for file names.
   Don't use the imperative mood in changesets, i.e. "Add `foo`" form should never be used.
   Keep changesets short: go straight to the main point and skip details most readers don't need.
+  Never end them with a full stop.
 
 ### Vue
 
@@ -210,3 +224,4 @@ If a word to ignore is only found in a single file:
 - Don't end an element's text with whitespace, including a line break before the closing tag: Vue keeps it as a space, which some browsers show when the text is selected.
   The same goes for whitespace before an element that may not render or be visible (`v-if`, `v-show`, etc.): move the space inside it, like `{{ label }}<span v-if="…"> (optional)</span>`.
   If the element has nothing but text, also start the text right after the opening tag.
+- In runtime props declarations (not type-based), always set `required: true|false` explicitly.
