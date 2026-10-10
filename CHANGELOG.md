@@ -1,5 +1,11 @@
 # @andreww2012/ai-guidelines
 
+## 0.2.4
+
+### Patch Changes
+
+- [`2fd74b1`](https://github.com/andreww2012/ai-guidelines/commit/2fd74b16145fb2e9cde2c252c56faf3e224dd4fa) - Guidelines: added rules for concurrent `await`s, the mood of commit headers, full stops in changesets, `required` in Vue runtime props and found upstream bugs, plus tips on using `: Readonly<T>` instead of `as const satisfies T` and on CONSTANT_CASE in plain JS files
+
 ## 0.2.3
 
 ### Patch Changes
