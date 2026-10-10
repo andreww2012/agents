@@ -1,5 +1,11 @@
 # @andreww2012/ai-guidelines
 
+## 0.2.3
+
+### Patch Changes
+
+- [`70f129d`](https://github.com/andreww2012/ai-guidelines/commit/70f129dfdc9907cca3878156e678e554bab1a66f) - Guidelines: CONSTANT_CASE is now also allowed for `RegExp`s and for `Set`s and `Map`s typed as `ReadonlySet` and `ReadonlyMap`
+
 ## 0.2.2
 
 ### Patch Changes
